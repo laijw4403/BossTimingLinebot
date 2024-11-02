@@ -27,7 +27,7 @@ export class CommandHandler {
       }
     } catch (error) {
       console.error('Command handling error:', error);
-      await sendMessageToGroup('指令處理發生錯誤，請稍後再試');
+    //   await sendMessageToGroup('指令處理發生錯誤，請稍後再試');
     }
   }
 } 
