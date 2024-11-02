@@ -22,6 +22,12 @@ export const sendMessageToGroup = async (message) => {
       body: JSON.stringify(postData)
     });
     
+    const quotaResponse = await fetch('https://api.line.me/v2/bot/message/quota', {
+      headers: headers
+    });
+    const quotaData = await quotaResponse.json();
+    console.log('剩餘訊息配額:', quotaData.value);
+    
     console.log('Message sent successfully');
     return response;
   } catch (error) {
