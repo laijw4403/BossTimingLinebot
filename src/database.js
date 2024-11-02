@@ -168,4 +168,32 @@ export class Database {
       throw error;
     }
   }
+
+  async updateBossRemindStatus(level, hasRemind) {
+    try {
+      const response = await this.sheets.spreadsheets.values.get({
+        spreadsheetId: this.spreadsheetId,
+        range: 'Boss Timing!A2:A'
+      });
+      
+      const rows = response.data.values || [];
+      const rowIndex = rows.findIndex(row => parseInt(row[0]) === level) + 2;
+
+      if (rowIndex < 2) {
+        throw new Error(`找不到等級 ${level} 的 Boss`);
+      }
+
+      await this.sheets.spreadsheets.values.update({
+        spreadsheetId: this.spreadsheetId,
+        range: `Boss Timing!E${rowIndex}`,
+        valueInputOption: 'USER_ENTERED',
+        resource: {
+          values: [[hasRemind]]
+        }
+      });
+    } catch (error) {
+      console.error(`Error updating remind status for level ${level}:`, error);
+      throw error;
+    }
+  }
 } 

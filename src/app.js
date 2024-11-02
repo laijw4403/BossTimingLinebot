@@ -13,6 +13,7 @@ export class App {
 
   async handleWebhook(event) {
     if (event.type === 'message' && event.message?.type === 'text') {
+      console.log('Message from group:', event.source.groupId);
       await this.commandHandler.handleCommand(event.message.text);
     }
     else if (event.type === 'join') {
